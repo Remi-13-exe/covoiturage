@@ -4,6 +4,27 @@ require __DIR__ . '/app/Controllers/TrajetController.php';
 require __DIR__ . '/app/Controllers/UserController.php';
 require __DIR__ . '/app/Controllers/AdminController.php';
 
+// Démarre la session **une seule fois**
+session_start();
+
+// Fonctions flash
+function setFlash(string $message) {
+    $_SESSION['flash'] = $message;
+}
+
+function getFlash(): ?string {
+    if (isset($_SESSION['flash'])) {
+        $msg = $_SESSION['flash'];
+        unset($_SESSION['flash']);
+        return $msg;
+    }
+    return null;
+}
+
+
+
+
+
 // mini-routeur simple
 $request = $_SERVER['REQUEST_URI'];
 
