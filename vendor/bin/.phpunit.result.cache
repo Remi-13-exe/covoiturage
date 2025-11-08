@@ -1,0 +1,1 @@
+{"version":2,"defects":{"TrajetTest::testCreateTrajet":8,"TrajetTest::testDeleteTrajet":8,"TrajetTest::testCreateTrajetInvalidUser":7},"times":{"TrajetTest::testCreateTrajet":0.005,"TrajetTest::testDeleteTrajet":0.003,"TrajetTest::testCreateTrajetInvalidUser":0.001}}

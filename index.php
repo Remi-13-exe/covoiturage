@@ -4,8 +4,8 @@ require __DIR__ . '/app/Controllers/TrajetController.php';
 require __DIR__ . '/app/Controllers/UserController.php';
 require __DIR__ . '/app/Controllers/AdminController.php';
 
-// Démarre la session **une seule fois**
-session_start();
+// Démarre la session une seule fois
+if (!session_id()) session_start();
 
 // Fonctions flash
 function setFlash(string $message) {
@@ -21,11 +21,7 @@ function getFlash(): ?string {
     return null;
 }
 
-
-
-
-
-// mini-routeur simple
+// Mini-routeur simple
 $request = $_SERVER['REQUEST_URI'];
 
 // Retire query string
@@ -42,12 +38,14 @@ $userCtrl = new UserController();
 $adminCtrl = new AdminController();
 
 // Routes
-switch ($path) {
-    case '/':
+switch (true) {
+    // Page d'accueil
+    case ($path === '/'):
         $trajetCtrl->index();
         break;
 
-    case '/login':
+    // Login
+    case ($path === '/login'):
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userCtrl->login();
         } else {
@@ -55,7 +53,14 @@ switch ($path) {
         }
         break;
 
-    case '/trajet/create':
+    // Logout
+    case ($path === '/logout'):
+        session_destroy();
+        header('Location: /covoiturage/login');
+        exit;
+
+    // Création trajet
+    case ($path === '/trajet/create'):
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $trajetCtrl->create();
         } else {
@@ -63,10 +68,32 @@ switch ($path) {
         }
         break;
 
-    case '/admin':
+    // Suppression trajet : /trajet/delete/{id}
+    case (preg_match('#^/trajet/delete/(\d+)$#', $path, $matches)):
+        $id = (int)$matches[1];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $trajetCtrl->delete($id);
+        } else {
+            echo "Méthode non autorisée.";
+        }
+        break;
+
+    // Modification trajet : /trajet/edit/{id}
+    case (preg_match('#^/trajet/edit/(\d+)$#', $path, $matches)):
+        $id = (int)$matches[1];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $trajetCtrl->update($id, $_POST);
+        } else {
+            $trajetCtrl->editForm($id);
+        }
+        break;
+
+    // Admin dashboard
+    case ($path === '/admin'):
         $adminCtrl->index();
         break;
 
+    // Page non trouvée
     default:
         http_response_code(404);
         echo "404 - Page non trouvée";

@@ -9,9 +9,14 @@ class AdminController {
     public function index() {
         global $pdo;
 
+        // ✅ Démarre la session si pas encore active
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         // Vérifie si l'utilisateur est admin
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            echo "<p style='color:red;'>⛔ Accès refusé : administrateur requis.</p>";
+            echo "<p style='color:red;'>⛔ Accès refusé : rôle administrateur requis.</p>";
             exit;
         }
 

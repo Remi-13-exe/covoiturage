@@ -1,11 +1,6 @@
 <?php
-// hash.php - Génère un hash pour un mot de passe (supprimez ce fichier après usage !)
+$password = 'test123'; // le mot de passe que tu veux utiliser
+$hash = password_hash($password, PASSWORD_DEFAULT);
 
-// Choisis ici le mot de passe que tu veux pour l'admin
-$plain = 'admin123'; // <-- change ce mot de passe si tu veux
-
-$hash = password_hash($plain, PASSWORD_DEFAULT);
-
-echo "<p>Mot de passe choisi : <b>" . htmlspecialchars($plain) . "</b></p>";
-echo "<p>Hash à copier dans la DB :</p>";
-echo "<pre>" . $hash . "</pre>";
+echo "Mot de passe : $password\n";
+echo "Hash : $hash\n";

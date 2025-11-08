@@ -1,0 +1,7 @@
+// === Importation moderne avec @use ===
+
+// 1️⃣ Import de tes variables personnalisées
+@use 'variables' as *;
+
+// 2️⃣ Import de Bootstrap depuis node_modules
+@use '../../node_modules/bootstrap/scss/bootstrap' as *;

@@ -1,26 +1,110 @@
 <?php include 'header.php'; ?>
 
-<h1 class="mb-4">🛠️ Tableau de bord Admin</h1>
+<div class="container mt-4">
+    <h1 class="mb-4 text-primary">🛠️ Tableau de bord Admin</h1>
 
-<h3>👥 Utilisateurs</h3>
-<ul>
-    <?php foreach($users as $u): ?>
-        <li><?= htmlspecialchars($u['prenom']) ?> <?= htmlspecialchars($u['nom']) ?> (<?= $u['role'] ?>)</li>
-    <?php endforeach; ?>
-</ul>
+    <!-- UTILISATEURS -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            👥 Utilisateurs
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($users as $u): ?>
+                        <tr>
+                            <td><?= $u['id'] ?></td>
+                            <td><?= htmlspecialchars($u['nom']) ?></td>
+                            <td><?= htmlspecialchars($u['prenom']) ?></td>
+                            <td><?= htmlspecialchars($u['email']) ?></td>
+                            <td><?= htmlspecialchars($u['role']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<h3>🚗 Trajets</h3>
-<ul>
-    <?php foreach($trajets as $t): ?>
-        <li><?= $t['conducteur'] ?> : <?= $t['depart'] ?> → <?= $t['arrivee'] ?> (<?= $t['places_dispo'] ?>/<?= $t['places_total'] ?>)</li>
-    <?php endforeach; ?>
-</ul>
+    <!-- AGENCES -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            🏢 Agences
+            <a href="/covoiturage/agence/create" class="btn btn-light btn-sm">➕ Ajouter agence</a>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($agences as $a): ?>
+                        <tr>
+                            <td><?= $a['id'] ?></td>
+                            <td><?= htmlspecialchars($a['nom']) ?></td>
+                            <td>
+                                <a href="/covoiturage/agence/edit/<?= $a['id'] ?>" class="btn btn-primary btn-sm me-1">Modifier</a>
+                                <form action="/covoiturage/agence/delete/<?= $a['id'] ?>" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cette agence ?');">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<h3>🏢 Agences</h3>
-<ul>
-    <?php foreach($agences as $a): ?>
-        <li><?= htmlspecialchars($a['nom']) ?></li>
-    <?php endforeach; ?>
-</ul>
+    <!-- TRAJETS -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-warning text-dark">
+            🚗 Trajets
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Conducteur</th>
+                        <th>Départ</th>
+                        <th>Arrivée</th>
+                        <th>Places dispo / total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($trajets as $t): ?>
+                        <tr>
+                            <td><?= $t['id'] ?></td>
+                            <td><?= htmlspecialchars($t['conducteur']) ?></td>
+                            <td><?= htmlspecialchars($t['depart']) ?></td>
+                            <td><?= htmlspecialchars($t['arrivee']) ?></td>
+                            <td><?= $t['places_dispo'] ?>/<?= $t['places_total'] ?></td>
+                            <td>
+                                <a href="/covoiturage/trajet/edit/<?= $t['id'] ?>" class="btn btn-primary btn-sm me-1">Modifier</a>
+                                <form action="/covoiturage/trajet/delete/<?= $t['id'] ?>" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer ce trajet ?');">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
 
 <?php include 'footer.php'; ?>
