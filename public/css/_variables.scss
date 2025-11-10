@@ -1,0 +1,46 @@
+// === Palette personnalisée ===
+
+/**
+ * Couleur principale utilisée pour les éléments interactifs (boutons, liens, etc.).
+ */
+$primary: #0074c7;
+
+/**
+ * Couleur secondaire, souvent utilisée pour les éléments complémentaires ou de navigation.
+ */
+$secondary: #00497c;
+
+/**
+ * Couleur claire, utilisée pour les arrière-plans ou les zones neutres.
+ */
+$light: #f1f8fc;
+
+/**
+ * Couleur sombre, utilisée pour le texte principal ou les contrastes.
+ */
+$dark: #384050;
+
+/**
+ * Couleur d’erreur ou d’alerte (ex : messages d’échec, boutons de suppression).
+ */
+$danger: #cd2c2e;
+
+/**
+ * Couleur de succès ou de validation (ex : messages de confirmation).
+ */
+$success: #82B864;
+
+/**
+ * Couleur de fond principale du corps de la page.
+ */
+$body-bg: $light;
+
+/**
+ * Couleur du texte principal du corps de la page.
+ */
+$body-color: $dark;
+
+/**
+ * Rayon des bordures pour les éléments arrondis (ex : boutons, cartes).
+ */
+$border-radius: 0.5rem;

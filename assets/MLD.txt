@@ -1,0 +1,31 @@
+-- Table users
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prenom VARCHAR(50) NOT NULL,
+    nom VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    tel VARCHAR(20),
+    role ENUM('user','admin') DEFAULT 'user',
+    password VARCHAR(255) NOT NULL
+);
+
+-- Table agences
+CREATE TABLE agences (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL
+);
+
+-- Table trajets
+CREATE TABLE trajets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    depart_id INT NOT NULL,
+    arrivee_id INT NOT NULL,
+    date_depart DATETIME NOT NULL,
+    date_arrivee DATETIME NOT NULL,
+    places_total INT NOT NULL,
+    places_dispo INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (depart_id) REFERENCES agences(id),
+    FOREIGN KEY (arrivee_id) REFERENCES agences(id)
+);

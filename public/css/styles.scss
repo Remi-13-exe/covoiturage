@@ -1,0 +1,13 @@
+// === Importation moderne avec @use ===
+
+/**
+ * Importation des variables personnalisées définies dans le fichier `variables.scss`.
+ * Le mot-clé `as *` permet d'utiliser directement les variables sans préfixe.
+ */
+@use 'variables' as *;
+
+/**
+ * Importation du framework Bootstrap depuis le dossier `node_modules`.
+ * Le mot-clé `as *` permet d'accéder à toutes les fonctionnalités de Bootstrap sans alias.
+ */
+@use '../../node_modules/bootstrap/scss/bootstrap' as *;
