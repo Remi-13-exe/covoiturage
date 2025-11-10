@@ -1,17 +1,36 @@
 <?php
+
+/**
+ * Point d'entrée principal de l'application.
+ *
+ * Initialise les dépendances, démarre la session, définit les fonctions utilitaires,
+ * instancie les contrôleurs et gère les routes via un mini-routeur.
+ */
+
+// === Chargement des dépendances ===
 require __DIR__ . '/config.php';
 require __DIR__ . '/app/Controllers/TrajetController.php';
 require __DIR__ . '/app/Controllers/UserController.php';
 require __DIR__ . '/app/Controllers/AdminController.php';
 
-// Démarre la session une seule fois
+// === Démarrage de la session ===
 if (!session_id()) session_start();
 
-// Fonctions flash
+/**
+ * Définit un message flash à afficher à l'utilisateur.
+ *
+ * @param string $message Le message à stocker temporairement
+ * @return void
+ */
 function setFlash(string $message) {
     $_SESSION['flash'] = $message;
 }
 
+/**
+ * Récupère et supprime le message flash stocké en session.
+ *
+ * @return string|null Le message flash ou null s'il n'existe pas
+ */
 function getFlash(): ?string {
     if (isset($_SESSION['flash'])) {
         $msg = $_SESSION['flash'];
@@ -21,30 +40,31 @@ function getFlash(): ?string {
     return null;
 }
 
-// Mini-routeur simple
+// === Mini-routeur simple basé sur l'URL ===
 $request = $_SERVER['REQUEST_URI'];
 
-// Retire query string
+// Nettoyage de l'URL : suppression des paramètres de requête
 $path = parse_url($request, PHP_URL_PATH);
 
-// Retire le dossier du projet si nécessaire
+// Suppression du préfixe de dossier si nécessaire (ex: /covoiturage)
 $path = str_replace('/covoiturage', '', $path);
 $path = rtrim($path, '/'); // supprime le slash final
 if ($path === '') $path = '/';
 
-// Instancie les contrôleurs
+// === Instanciation des contrôleurs ===
 $trajetCtrl = new TrajetController();
 $userCtrl = new UserController();
 $adminCtrl = new AdminController();
 
-// Routes
+// === Définition des routes ===
 switch (true) {
-    // Page d'accueil
+
+    // 🏠 Page d'accueil
     case ($path === '/'):
         $trajetCtrl->index();
         break;
 
-    // Login
+    // 🔐 Connexion utilisateur
     case ($path === '/login'):
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userCtrl->login();
@@ -53,13 +73,13 @@ switch (true) {
         }
         break;
 
-    // Logout
+    // 🚪 Déconnexion utilisateur
     case ($path === '/logout'):
         session_destroy();
         header('Location: /covoiturage/login');
         exit;
 
-    // Création trajet
+    // ➕ Création d’un trajet
     case ($path === '/trajet/create'):
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $trajetCtrl->create();
@@ -68,7 +88,7 @@ switch (true) {
         }
         break;
 
-    // Suppression trajet : /trajet/delete/{id}
+    // 🗑️ Suppression d’un trajet
     case (preg_match('#^/trajet/delete/(\d+)$#', $path, $matches)):
         $id = (int)$matches[1];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -78,7 +98,7 @@ switch (true) {
         }
         break;
 
-    // Modification trajet : /trajet/edit/{id}
+    // ✏️ Modification d’un trajet
     case (preg_match('#^/trajet/edit/(\d+)$#', $path, $matches)):
         $id = (int)$matches[1];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -88,12 +108,12 @@ switch (true) {
         }
         break;
 
-    // Admin dashboard
+    // 🛠️ Tableau de bord administrateur
     case ($path === '/admin'):
         $adminCtrl->index();
         break;
 
-    // Page non trouvée
+    // ❌ Route non trouvée
     default:
         http_response_code(404);
         echo "404 - Page non trouvée";

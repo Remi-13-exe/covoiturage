@@ -1,12 +1,27 @@
 <?php
+
+/**
+ * Inclusion des fichiers de configuration et des modèles nécessaires.
+ */
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../Models/Trajet.php';
 require_once __DIR__ . '/../Models/Agence.php';
 require_once __DIR__ . '/../Models/User.php';
 
+/**
+ * Contrôleur de gestion des trajets.
+ *
+ * Gère les opérations liées aux trajets : affichage, création, modification, suppression.
+ */
 class TrajetController {
 
-    // Vérifie que l'utilisateur est admin
+    /**
+     * Vérifie que l'utilisateur connecté est un administrateur.
+     *
+     * Redirige vers la page d'accueil si l'utilisateur n'a pas le rôle 'admin'.
+     *
+     * @return void
+     */
     private function checkAdmin() {
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
@@ -16,7 +31,13 @@ class TrajetController {
         }
     }
 
-    // Vérifie que l'utilisateur est connecté (tout rôle)
+    /**
+     * Vérifie que l'utilisateur est connecté, peu importe son rôle.
+     *
+     * Redirige vers la page de connexion si aucun utilisateur n'est connecté.
+     *
+     * @return void
+     */
     private function checkUser() {
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['user'])) {
@@ -26,7 +47,11 @@ class TrajetController {
         }
     }
 
-    // Affiche tous les trajets
+    /**
+     * Affiche la liste de tous les trajets disponibles.
+     *
+     * @return void
+     */
     public function index() {
         global $pdo;
         $trajetModel = new Trajet($pdo);
@@ -37,9 +62,15 @@ class TrajetController {
         include __DIR__ . '/../Views/accueil.php';
     }
 
-    // Formulaire de création de trajet → tout utilisateur connecté
+    /**
+     * Affiche le formulaire de création de trajet.
+     *
+     * Accessible à tout utilisateur connecté.
+     *
+     * @return void
+     */
     public function createForm() {
-        $this->checkUser(); // ✅ tout utilisateur connecté
+        $this->checkUser();
         global $pdo;
         $agenceModel = new Agence($pdo);
         $agences = $agenceModel->all();
@@ -47,7 +78,13 @@ class TrajetController {
         include __DIR__ . '/../Views/trajet_form.php';
     }
 
-    // Création d’un trajet → tout utilisateur connecté
+    /**
+     * Traite la création d’un nouveau trajet.
+     *
+     * Vérifie les données envoyées via POST et insère le trajet en base.
+     *
+     * @return void
+     */
     public function create() {
         $this->checkUser();
         global $pdo;
@@ -55,14 +92,14 @@ class TrajetController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (session_status() === PHP_SESSION_NONE) session_start();
 
-            $user_id = $_SESSION['user']['id']; // id de l'utilisateur connecté
+            $user_id = $_SESSION['user']['id'];
             $depart_id = $_POST['depart_id'];
             $arrivee_id = $_POST['arrivee_id'];
             $date_depart = $_POST['date_depart'];
             $date_arrivee = $_POST['date_arrivee'];
             $places_total = $_POST['places_total'];
 
-            // Vérifications cohérentes
+            // Vérifications de cohérence
             if ($depart_id == $arrivee_id) {
                 $_SESSION['flash'] = "❌ L'agence de départ et d'arrivée doivent être différentes !";
                 header('Location: /covoiturage/trajet/create');
@@ -83,7 +120,6 @@ class TrajetController {
                 exit;
             }
 
-            // Création du trajet
             $trajetModel = new Trajet($pdo);
             $success = $trajetModel->create(
                 $user_id,
@@ -103,7 +139,14 @@ class TrajetController {
         }
     }
 
-    // Édition et suppression → uniquement admin
+    /**
+     * Affiche le formulaire d'édition d’un trajet.
+     *
+     * Accessible uniquement aux administrateurs.
+     *
+     * @param int $id Identifiant du trajet à modifier
+     * @return void
+     */
     public function editForm($id) {
         $this->checkAdmin();
         global $pdo;
@@ -117,6 +160,14 @@ class TrajetController {
         include __DIR__ . '/../Views/trajet_edit.php';
     }
 
+    /**
+     * Met à jour les informations d’un trajet existant.
+     *
+     * Accessible uniquement aux administrateurs.
+     *
+     * @param int $id Identifiant du trajet à mettre à jour
+     * @return void
+     */
     public function update($id) {
         $this->checkAdmin();
         global $pdo;
@@ -127,7 +178,7 @@ class TrajetController {
             $date_depart = $_POST['date_depart'];
             $date_arrivee = $_POST['date_arrivee'];
 
-            // Vérifications cohérentes
+            // Vérifications de cohérence
             if ($depart_id == $arrivee_id) {
                 $_SESSION['flash'] = "❌ L'agence de départ et d'arrivée doivent être différentes !";
                 header("Location: /covoiturage/trajet/edit/$id");
@@ -160,6 +211,14 @@ class TrajetController {
         }
     }
 
+    /**
+     * Supprime un trajet existant.
+     *
+     * Accessible uniquement aux administrateurs.
+     *
+     * @param int $id Identifiant du trajet à supprimer
+     * @return void
+     */
     public function delete($id) {
         $this->checkAdmin();
         global $pdo;

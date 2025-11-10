@@ -485,8 +485,11 @@ button,
 [type=button],
 [type=reset],
 [type=submit] {
-  -webkit-appearance: button;
+    -webkit-appearance: button;  /* Chrome, Safari */
+    -moz-appearance: button;     /* Firefox */
+    appearance: button;          /* Standard */
 }
+
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
@@ -540,11 +543,13 @@ legend + * {
 ::-webkit-inner-spin-button {
   height: auto;
 }
-
 [type=search] {
-  -webkit-appearance: textfield;
+  -webkit-appearance: textfield; /* Chrome, Safari */
+  -moz-appearance: textfield;    /* Firefox */
+  appearance: textfield;         /* Standard */
   outline-offset: -2px;
 }
+
 [type=search]::-webkit-search-cancel-button {
   cursor: pointer;
   filter: grayscale(1);
@@ -568,7 +573,9 @@ legend + * {
 
 ::file-selector-button {
   font: inherit;
-  -webkit-appearance: button;
+  -webkit-appearance: button; /* Chrome, Safari */
+  -moz-appearance: button;    /* Firefox */
+  appearance: button;         /* Standard pour tous les navigateurs */
 }
 
 output {
