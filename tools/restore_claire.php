@@ -3,7 +3,14 @@
 // Usage : php tools/restore_claire.php [nouveauMotDePasse]
 // Si aucun mot de passe fourni, utilisera "admin123" par défaut.
 
+
+
 require_once __DIR__ . '/../config.php';
+/** @var PDO $pdo */
+
+
+
+
 
 $email = 'claire.martin@mail.com';
 $newPassword = $argv[1] ?? 'admin123';

@@ -2,6 +2,11 @@
 /**
  * Inclusion du header contenant la navbar et les balises <head>.
  */
+/**
+ * @var array<int, array<string, mixed>> $agences
+ */
+
+
 include 'header.php'; 
 ?>
 

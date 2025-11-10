@@ -13,8 +13,9 @@
  * @package tools
  */
 
-// 🔧 Inclusion de la configuration PDO
-require_once __DIR__ . '/../config.php'; // adapte le chemin si nécessaire
+require_once __DIR__ . '/../config.php';
+/** @var PDO $pdo */
+
 
 // 🔐 Mot de passe par défaut (modifiable via argument CLI)
 $newPassword = 'password123';

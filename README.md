@@ -68,43 +68,81 @@ Utilisateur	Martin Alexandre	alexandre.martin@email.fr
 Utilisateur	Sophie Dubois	sophie.dubois@email.fr
 	password
 🗂 Structure du projet
-covoiturage/
+├── .htaccess
+├── composer.json
+├── composer.lock
+├── config.php
+├── create_user.php
+├── helpers.php
+├── index.php
+├── package-lock.json
+├── package.json
+├── phpstan.neon
+├── README.md
+├── test_db.php
 │
-├─ app/
-│  ├─ Controllers/      # Contrôleurs PHP
-│  ├─ Models/           # Modèles (User, Trajet, Agence)
-│  └─ Views/            # Templates HTML/PHP
+├── 📁 app/
+│   ├── 📁 Controllers/
+│   │   ├── AdminController.php
+│   │   ├── TrajetController.php
+│   │   └── Usercontroller.php
+│   │
+│   ├── 📁 Models/
+│   │   ├── Agence.php
+│   │   ├── Trajet.php
+│   │   └── User.php
+│   │
+│   ├── 📁 Views/
+│       ├── accueil.php
+│       ├── admin_dashboard.php
+│       ├── footer.php
+│       ├── header.php
+│       ├── login.php
+│       ├── trajet_edit.php
+│       └── trajet_form.php
 │
-├─ assets/
-│  ├─ visuels/          # Images, icônes
-│  └─ jeu-d-essais/     # Données de test
+├── 📁 assets/
+│   ├── MCD.png
+│   ├── MLD.txt
+│   ├── 📁 jeu-d-essais/
+│   │   ├── agences.csv
+│   │   └── users.csv
+│   │
+│   ├── 📁 visuels/
+│       ├── accueil.png
+│       ├── details.png
+│       ├── header_admin.png
+│       ├── message_erreur.png
+│       └── visiteur.png
 │
-├─ database/
-│  ├─ create_db.sql     # Script création base
-│  └─ seed_db.sql       # Script jeu de données
+├── 📁 database/
+│   ├── create_db.sql
+│   └── seed_db.sql
 │
-├─ js/
-│  └─ main.js           # Scripts JS
+├── 📁 js/
+│   └── main.js
 │
-├─ public/
-│  └─ css/              # Styles CSS/SCSS
+├── 📁 public/
+│   └── 📁 css/
+│       ├── styles.css
+│       ├── styles.css.map
+│       ├── styles.scss
+│       └── _variables.scss
 │
-├─ tools/               # Scripts utilitaires (restore, update passwords)
-├─ tests/               # Tests unitaires PHP
-├─ config.php           # Configuration PDO
-├─ index.php            # Routeur principal
-├─ README.md            # Documentation
-├─ routes.php           # Définition des routes
-├─ composer.json / lock
-├─ package.json / lock
-├─ .htaccess
-└─ fichiers PHP divers
+├── 📁 tests/
+│   ├── TrajetTest.php
+│   └── UserTest.php
+│
+└── 📁 tools/
+    ├── restore_claire.php
+    └── update_passwords.php
+
 
 📊 Modélisation
 
-MCD : assets/visuels/MCD_covoiturage.png
+MCD : assets/visuels/MCD.png
 
-MLD : assets/visuels/MLD_covoiturage.txt
+MLD : assets/visuels/MLD.txt
 
 📝 Notes importantes
 

@@ -8,6 +8,7 @@
  */
 
 // === Chargement des dépendances ===
+require_once __DIR__ . '/helpers.php';
 require __DIR__ . '/config.php';
 require __DIR__ . '/app/Controllers/TrajetController.php';
 require __DIR__ . '/app/Controllers/UserController.php';

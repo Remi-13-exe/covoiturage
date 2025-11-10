@@ -2,6 +2,10 @@
 /**
  * Inclusion de l'en-tête HTML commun à toutes les pages.
  */
+
+/** @var array<string, mixed> $trajet */
+/** @var array<int, array<string, mixed>> $agences */
+
 include __DIR__ . '/header.php'; 
 ?>
 

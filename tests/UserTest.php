@@ -18,7 +18,10 @@
  */
 
 // 🔧 Inclusion de la configuration et du modèle User
+
 require __DIR__ . '/../config.php';
+global $pdo;
+
 require __DIR__ . '/../app/Models/User.php';
 
 // 🧩 Instanciation du modèle
